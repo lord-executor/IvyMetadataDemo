@@ -10,7 +10,7 @@ import { SampleModule } from './sample.module';
   ],
   imports: [
     BrowserModule,
-    SampleModule,
+    SampleModule.provide(),
   ],
   providers: [],
   bootstrap: [AppComponent]

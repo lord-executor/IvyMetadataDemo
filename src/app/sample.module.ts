@@ -1,8 +1,10 @@
-import { NgModule } from '@angular/core';
+import { InjectionToken, ModuleWithProviders, NgModule } from '@angular/core';
 
 import { Rng } from './rng.service';
 import { SampleService } from './sample.service';
 import { Sample1 } from './sample1/sample1.component';
+
+export const AppNameToken = new InjectionToken<string>("AppNameToken");
 
 @NgModule({
   declarations: [
@@ -24,4 +26,19 @@ import { Sample1 } from './sample1/sample1.component';
     }
   ]
 })
-export class SampleModule { }
+export class SampleModule {
+  public static provide(): ModuleWithProviders<SampleModule> {
+    return {
+      ngModule: SampleModule,
+      providers: [
+        {
+          provide: AppNameToken,
+          deps: [SampleService],
+          useFactory: (sampleService: SampleService) => {
+            return `SampleService says ${sampleService.sayHi()}`;
+          }
+        }
+      ]
+    }
+  }
+}
